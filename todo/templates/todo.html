@@ -94,7 +94,7 @@
           </div>
           <div class="buttons">
               
-              <button class="btn btn-success edit-btn {% if todo.status == 'completed' %}bg-success{% endif %}"">{{todo.status}}</button>
+              <button class="btn btn-success edit-btn {% if todo.status == 'completed' %}bg-success{% endif %}"">{{todo.status}} </button>
 
               <a href="{% url "edit" todo.id %}"><button class="btn btn-primary edit-btn">Edit</button></a>
               <a href="{% url "delete" todo.id %}"><button class="btn btn-danger delete-btn">Delete</button></a>

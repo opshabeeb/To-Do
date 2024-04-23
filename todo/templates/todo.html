@@ -1,0 +1,106 @@
+
+
+{% extends "base.html" %} 
+{% block content %}
+<style>
+    .input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .add-btn {
+        padding: 10px 20px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      .reminders-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .reminders-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f7f7f7;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .delete-btn {
+        padding: 5px 10px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      .delete-btn:hover {
+        background-color: #c82333;
+      }
+      
+      .edit-btn {
+        padding: 5px 10px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #632ae9;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      .edit-btn:hover {
+        background-color: #0062cc;
+      }
+</style>
+<div class="container mt-5">
+  <h1 class="text-center">{{ project.title }}</h1>
+  <form action="{% url "add" project.id %}" method="post">
+      {% csrf_token %}
+      <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enter a reminder" name="description"/>
+          <button type="submit" class="btn btn-primary add-btn">Add</button>
+      </div>
+  </form>
+  <div class="conainer">
+  <p class="fs-4">summery:  {{ completed_todos.count }}/{{ project.todos.count }} todos completed<p>
+  </div>
+  <ul class="list-group reminders-list">
+      {% for todo in todos %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="task">
+              <p>
+                <form method="post" action="{% url 'updatestatus' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="todo_id" value="{{ todo.id }}">
+                  <input type="checkbox" {% if todo.status == 'completed' %} checked {% endif %} onchange="this.form.submit()">
+                  {{ todo.description }}
+              </form>
+              </p>
+          </div>
+          <div class="buttons">
+              
+              <button class="btn btn-success edit-btn {% if todo.status == 'completed' %}bg-success{% endif %}"">{{todo.status}}</button>
+
+              <a href="{% url "edit" todo.id %}"><button class="btn btn-primary edit-btn">Edit</button></a>
+              <a href="{% url "delete" todo.id %}"><button class="btn btn-danger delete-btn">Delete</button></a>
+          </div>
+      </li>
+      {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

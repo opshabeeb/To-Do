@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<button type="button" class="btn btn-primary p-5 m-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+   <h2>create a project</h2> 
+  </button>
+  
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+        <div class="modal-body">
+          
+            <input type="text" placeholder="enter project name" name="pname" id="pname" style="border: none;">
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">create</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="container">
+    <h1>Projects</h1>
+    <div class="row">
+      {% for p in projects %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card bg-primary text-center">
+          <div class="card-body">
+            <a href="{% url 'todo' p.id %}">
+              <h3 class="card-title text-light">{{ p.title }}</h3></a>
+              <button type="button" class="btn btn-dark mt-5" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ p.id }}">
+                        Edit Name
+                    </button>
+            
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="editProjectModal{{ p.id }}" tabindex="-1" aria-labelledby="editProjectModalLabel{{ p.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProjectModalLabel{{ p.id }}">Edit Project Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'edit_project' p.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="edit_project_name{{ p.id }}" name="edit_project_name" value="{{ p.title }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock content %}
+  

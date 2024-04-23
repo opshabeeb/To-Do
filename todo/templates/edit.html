@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center"></h1>
+    <form action="{% url "update" Data.id %}" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="{{Data.description}}" name="description"/>
+            <button type="submit" class="btn btn-primary add-btn">edit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

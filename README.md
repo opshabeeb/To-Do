@@ -13,4 +13,3 @@
 
 - [x] Task 2
 - [x] Task 5
-- [x] Task 6
